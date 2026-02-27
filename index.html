@@ -622,6 +622,7 @@
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" onclick="closeLightbox()">×</button>
         <img src="" alt="" id="lightbox-img">
+        <video controls id="lightbox-video" style="display:none; max-width:100%; max-height:90vh;"></video>
     </div>
 
     <script>
@@ -692,7 +693,7 @@
 "RTA-GITEX-Europe-2025": ["Front Approach.jpg", "Front BEV.jpg", "Front Left Approach.jpg", "Front Right Approach.jpg", "Left Approach.jpg", "Rear Approach.jpg", "Rear BEV.jpg", "Rear Left Approach.jpg", "Rear Right Approach.jpg", "Right Approach.jpg"],
 "RTA-GITEX-GLOBAL-2025": ["Scene 10.jpg", "Scene 11.jpg", "Scene 12.jpg", "Scene 13.jpg", "Scene 14.jpg", "Scene 15.jpg", "Scene 16.jpg", "Scene 1.jpg", "Scene 2.jpg", "Scene 3.jpg", "Scene 4.jpg", "Scene 5.jpg", "Scene 6.jpg", "Scene 7.jpg", "Scene 8.jpg", "Scene 9.jpg"],
 "RTA-Global-Rail-2024": ["Image.jpg", "v6--10 Majlis -1.jpg", "v6--11 Majlis -2.jpg", "v6--12 Totem Rear.jpg", "v6--3 SE_1.jpg", "v6--8 Main Screen Close up_1.jpg", "v6--9 Totem Close-up_1.jpg"],
-"Saudi-Tadawul-Group-Saudi-Capital-Market-Forum-2026": ["Ai_generated_(10).jpg", "Ai_generated_(1).jpg", "Ai_generated_(2).jpg", "Ai_generated_(3).jpg", "Ai_generated_(4).jpg", "Ai_generated_(5).jpg", "Ai_generated_(6).jpg", "Ai_generated_(7).jpg", "Ai_generated_(8).jpg", "Ai_generated_(9).jpg", "Ai_generated_.jpg", "image (3).jpg"],
+"Saudi-Tadawul-Group-Saudi-Capital-Market-Forum-2026": ["Ai_generated_(10).jpg", "Ai_generated_(1).jpg", "Ai_generated_(2).jpg", "Ai_generated_(3).jpg", "Ai_generated_(4).jpg", "Ai_generated_(5).jpg", "Ai_generated_(6).jpg", "Ai_generated_(7).jpg", "Ai_generated_(8).jpg", "Ai_generated_(9).jpg", "Ai_generated_.jpg", "image (3).jpg", "CMF Riyadh 2026 Presentation-1.mp4"],
 "Saudi-Tadawul-Group-Tadawul-Tower-34th-Floor-Marketplace": ["35th Reception.jpg", "Boardroom.jpg", "Boardroom Screen.jpg", "From Lift.jpg", "From Lift Screen option 2.jpg", "From Lift Screen option 3.jpg", "GF Reception area with dims..jpg", "Long Interactive Screen.jpg", "Lounge from Boardroom.jpg", "Majilis Option 1.jpg", "Majilis Option 2.jpg", "Market Open Trade.jpg", "Market Open Trade Screen option 2.jpg", "Market Open Trade Screen option 3.jpg", "Option2.jpg", "Option 3.jpg", "Plan View.jpg", "Reception.jpg", "Scene 1.jpg"],
 "SWorld-Cup-Bid-Model": ["Abha_room.jpg", "Alkhobar_room.jpg", "Intro-Dome-Welcome-Message.jpg", "Jeddah_room.jpg", "NEOM_room.jpg", "Pick a team Wall.jpg", "Riyadh_room.jpg", "WC2034_Sketch Plan.jpg", "WC2034_Sketch Plan_Ritz Carlton copy.jpg"],
 "Wicked-Damac": ["1st floor Cavalli entrance.jpg"],
@@ -789,11 +790,25 @@
 
         function openLightbox(src) {
             currentImageIndex = currentImages.findIndex(img => img === src);
-            document.getElementById('lightbox-img').src = src;
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxVideo = document.getElementById('lightbox-video');
+            
+            if (src.endsWith('.mp4')) {
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.src = src;
+                lightboxVideo.play();
+            } else {
+                lightboxVideo.style.display = 'none';
+                lightboxVideo.pause();
+                lightboxImg.style.display = 'block';
+                lightboxImg.src = src;
+            }
             document.getElementById('lightbox').classList.add('active');
         }
 
         function closeLightbox() {
+            document.getElementById('lightbox-video').pause();
             document.getElementById('lightbox').classList.remove('active');
         }
 
@@ -802,7 +817,21 @@
             currentImageIndex += direction;
             if (currentImageIndex < 0) currentImageIndex = currentImages.length - 1;
             if (currentImageIndex >= currentImages.length) currentImageIndex = 0;
-            document.getElementById('lightbox-img').src = currentImages[currentImageIndex];
+            const src = currentImages[currentImageIndex];
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxVideo = document.getElementById('lightbox-video');
+            
+            if (src.endsWith('.mp4')) {
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.src = src;
+                lightboxVideo.play();
+            } else {
+                lightboxVideo.style.display = 'none';
+                lightboxVideo.pause();
+                lightboxImg.style.display = 'block';
+                lightboxImg.src = src;
+            }
         }
 
         document.addEventListener('keydown', (e) => {
