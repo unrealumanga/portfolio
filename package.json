@@ -1,0 +1,17 @@
+{
+  "name": "hethusha-umanga-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Experiential design portfolio — modular vanilla JS + auto‑generated media manifest.",
+  "type": "module",
+  "scripts": {
+    "manifest": "node scripts/generate-manifest.mjs",
+    "dev": "npm run manifest && python3 -m http.server 8080",
+    "build": "npm run manifest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "",
+  "license": "UNLICENSED"
+}

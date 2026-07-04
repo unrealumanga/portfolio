@@ -1,0 +1,244 @@
+/**
+ * components.css — Buttons, project cards, lightbox, mobile nav
+ */
+
+/* ============ BUTTONS ============ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--lime-dim);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  border-color: var(--text);
+}
+
+/* ============ PROJECT CARD ============ */
+
+.project-card {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  transition: border-color var(--dur-fast);
+}
+
+.project-card:hover .project-card-frame,
+.project-card:focus-visible .project-card-frame {
+  border-color: var(--accent);
+}
+
+.project-card-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.project-card:hover .project-card-frame img {
+  transform: scale(1.06);
+}
+
+.project-card-index {
+  position: absolute;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  padding: 2px 8px;
+  background: rgba(11, 12, 9, 0.75);
+  backdrop-filter: blur(4px);
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.project-card-body {
+  padding-top: var(--sp-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+
+.project-card-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.project-card-meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+  flex: none;
+}
+
+/* ============ LIGHTBOX ============ */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: rgba(6, 7, 5, 0.96);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-6) var(--gutter);
+}
+
+.lightbox.is-active {
+  display: flex;
+}
+
+.lightbox img,
+.lightbox video {
+  max-width: 100%;
+  max-height: 88vh;
+  border-radius: var(--radius);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+
+.lightbox-close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+
+.lightbox-nav:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.lightbox-prev {
+  left: var(--gutter);
+}
+
+.lightbox-next {
+  right: var(--gutter);
+}
+
+@media (max-width: 640px) {
+  .lightbox-nav {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ============ MOBILE NAV ============ */
+
+.menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: var(--text);
+  transition: transform var(--dur-fast), opacity var(--dur-fast);
+}
+
+@media (max-width: 720px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    position: fixed;
+    inset: 0;
+    top: 0;
+    z-index: 450;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--sp-5);
+    padding: var(--sp-7) var(--gutter);
+    background: var(--bg);
+    transform: translateX(100%);
+    transition: transform var(--dur-med) var(--ease-in-out);
+  }
+
+  .main-nav.is-open {
+    transform: translateX(0);
+  }
+
+  .main-nav a {
+    font-size: var(--fs-h3);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    color: var(--text);
+  }
+}
+
+body.nav-open {
+  overflow: hidden;
+}

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hethusha Umanga Seneviratne | Experiential Designer</title>
+    <meta
+      name="description"
+      content="Experiential designer based in Dubai. Two decades translating brand strategy into spatial experiences — exhibition stands, sales centres, pavilions and corporate environments across the UAE and the GCC."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hethusha Umanga Seneviratne | Experiential Designer" />
+    <meta property="og:description" content="Spatial design portfolio — exhibitions, sales centres, pavilions and corporate environments." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://unrealumanga.github.io/portfolio/" />
+    <meta name="theme-color" content="#0b0c09" />
+
+    <link rel="icon" href="data:," />
+
+    <!-- Fonts: Big Shoulders Display (drafting-inspired condensed display),
+         Inter (body), IBM Plex Mono (labels/eyebrows/numbers) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="assets/css/tokens.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/motion.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ============ HEADER ============ -->
+    <header class="site-header">
+      <div class="wordmark" id="logo-home">Hethusha<span class="dot">.</span>Umanga</div>
+      <nav class="main-nav" id="main-nav" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#studio">Studio</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <!-- ============ SHEET INDEX RAIL ============ -->
+    <aside class="sheet-rail" aria-label="Section index">
+      <button class="sheet-tab is-active" data-target="hero">SHT.001 — INDEX</button>
+      <button class="sheet-tab" data-target="work">SHT.002 — WORK</button>
+      <button class="sheet-tab" data-target="studio">SHT.003 — PROCESS</button>
+      <button class="sheet-tab" data-target="capabilities">SHT.004 — SCOPE</button>
+      <button class="sheet-tab" data-target="sectors">SHT.005 — SECTORS</button>
+      <button class="sheet-tab" data-target="contact">SHT.006 — CONTACT</button>
+    </aside>
+
+    <div class="page">
+      <main id="main">
+        <!-- ============ SHT.001 — HERO ============ -->
+        <section class="sheet hero" id="hero">
+          <div class="hero-content">
+            <p class="hero-label eyebrow">Experiential Designer — Dubai, UAE</p>
+            <h1 data-reveal>Creating spaces that respond to people</h1>
+            <p class="hero-tagline" data-reveal>
+              Two decades translating brand strategy into dynamic, three-dimensional
+              worlds — exhibition stands, sales centres, pavilions and corporate
+              environments across the UAE and the wider GCC.
+            </p>
+            <div class="hero-cta" data-reveal>
+              <a href="#work" class="btn btn-primary">View Projects</a>
+              <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+            <div class="hero-stats" data-reveal>
+              <div>
+                <div class="hero-stat-value" id="stat-projects">00</div>
+                <div class="hero-stat-label">Projects</div>
+              </div>
+              <div>
+                <div class="hero-stat-value">20+</div>
+                <div class="hero-stat-label">Years Practicing</div>
+              </div>
+              <div>
+                <div class="hero-stat-value" id="stat-sectors">00</div>
+                <div class="hero-stat-label">Sectors Served</div>
+              </div>
+            </div>
+          </div>
+          <span class="scroll-cue"><span class="scroll-cue-line"></span> Scroll</span>
+        </section>
+
+        <!-- ============ SHT.002 — WORK ============ -->
+        <section class="sheet" id="work">
+          <p class="sheet-tag"><span>SHT.002</span><span class="sheet-tag-title">Selected Work</span></p>
+          <div class="sheet-inner">
+            <div class="work-header" data-reveal>
+              <h2>Selected Work</h2>
+              <span class="text-muted" id="work-count" style="font-family: var(--font-mono); font-size: var(--fs-small);"></span>
+            </div>
+            <div class="filter-pills" id="filter-pills" data-reveal></div>
+            <div class="work-grid" id="work-grid"></div>
+            <p class="work-empty" id="work-empty" hidden>No projects in this sector yet.</p>
+          </div>
+        </section>
+
+        <!-- ============ SHT.003 — STUDIO / PROCESS ============ -->
+        <section class="sheet" id="studio">
+          <p class="sheet-tag"><span>SHT.003</span><span class="sheet-tag-title">Studio &amp; Process</span></p>
+          <div class="sheet-inner">
+            <p class="studio-intro" data-reveal>
+              <strong>Hethusha Umanga Seneviratne</strong> is an experiential designer
+              based in Dubai, working at the intersection of brand strategy and
+              spatial storytelling — shaping how people move through, and feel
+              inside, a built environment.
+            </p>
+            <div class="process-list" data-reveal-group>
+              <div class="process-step" data-reveal>
+                <div class="process-step-index">01 / CONCEPT &amp; NARRATIVE</div>
+                <h3>Concept</h3>
+                <p>Brand strategy is translated into a spatial story — zoning, sequence and moments of arrival that give a brand a place to live in three dimensions.</p>
+              </div>
+              <div class="process-step" data-reveal>
+                <div class="process-step-index">02 / DESIGN &amp; COORDINATION</div>
+                <h3>Coordination</h3>
+                <p>Concepts are resolved into buildable drawings and photoreal visuals, coordinated across architects, fabricators and contractors ahead of build.</p>
+              </div>
+              <div class="process-step" data-reveal>
+                <div class="process-step-index">03 / BUILD &amp; HANDOVER</div>
+                <h3>Delivery</h3>
+                <p>On-site through fit-out and installation, resolving the inevitable — until the space is show-ready and handed over.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SHT.004 — CAPABILITIES ============ -->
+        <section class="sheet" id="capabilities">
+          <p class="sheet-tag"><span>SHT.004</span><span class="sheet-tag-title">Scope of Work</span></p>
+          <div class="sheet-inner">
+            <div class="capability-grid" data-reveal-group>
+              <div class="capability-card" data-reveal>
+                <div class="capability-card-index">N&deg;01</div>
+                <h3>Exhibition Stands &amp; Pavilions</h3>
+                <p>National and corporate pavilions, GITEX-scale stands, mobile pavilions.</p>
+              </div>
+              <div class="capability-card" data-reveal>
+                <div class="capability-card-index">N&deg;02</div>
+                <h3>Sales &amp; Experience Centres</h3>
+                <p>Real estate sales galleries and brand experience centres designed to convert.</p>
+              </div>
+              <div class="capability-card" data-reveal>
+                <div class="capability-card-index">N&deg;03</div>
+                <h3>Corporate Workplace &amp; HQ</h3>
+                <p>Headquarters and workplace environments that carry brand into daily use.</p>
+              </div>
+              <div class="capability-card" data-reveal>
+                <div class="capability-card-index">N&deg;04</div>
+                <h3>3D Visualization</h3>
+                <p>Photoreal renders and walkthroughs used to sell-in concepts before a single wall goes up.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SHT.005 — SECTORS ============ -->
+        <section class="sheet" id="sectors">
+          <p class="sheet-tag"><span>SHT.005</span><span class="sheet-tag-title">Sectors</span></p>
+          <div class="sheet-inner">
+            <div class="sectors-layout">
+              <ul class="sector-list" id="sector-list" data-reveal></ul>
+              <div class="stat-block" data-reveal>
+                <div class="stat-item">
+                  <div class="stat-value" id="stat-projects-2">00</div>
+                  <div class="stat-label">Projects Delivered</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value" id="stat-sectors-2">00</div>
+                  <div class="stat-label">Sectors Served</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">20+</div>
+                  <div class="stat-label">Years Practicing</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">UAE&nbsp;/&nbsp;KSA</div>
+                  <div class="stat-label">Core Markets</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ SHT.006 — CONTACT ============ -->
+        <section class="sheet" id="contact">
+          <p class="sheet-tag"><span>SHT.006</span><span class="sheet-tag-title">Contact</span></p>
+          <div class="sheet-inner">
+            <h2 class="contact-cta" data-reveal>Let's build the <a href="mailto:hethusha@gmail.com">next space</a>.</h2>
+            <div class="contact-grid" data-reveal-group>
+              <div class="contact-item" data-reveal>
+                <h3>Email</h3>
+                <a href="mailto:hethusha@gmail.com">hethusha@gmail.com</a>
+              </div>
+              <div class="contact-item" data-reveal>
+                <h3>Phone</h3>
+                <p><a href="tel:+971552442540">+971 55 244 2540</a></p>
+                <p><a href="tel:+971505126217">+971 50 512 6217</a></p>
+              </div>
+              <div class="contact-item" data-reveal>
+                <h3>Location</h3>
+                <p>Dubai, UAE</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>&copy; 2026 Hethusha Umanga Seneviratne — Experiential Designer</span>
+        <button id="logo-home-2" class="text-muted" style="font-family: inherit;">Back to top ↑</button>
+      </footer>
+    </div>
+
+    <!-- ============ PROJECT DETAIL VIEW ============ -->
+    <div id="project-view" role="dialog" aria-modal="true" aria-label="Project detail">
+      <div class="project-topbar">
+        <button class="back-btn" id="back-btn">&larr; All Projects</button>
+        <div class="project-pager">
+          <span class="project-pager-label" id="nav-project-index"></span>
+          <button class="pager-btn" id="prev-btn" aria-label="Previous project">&larr;</button>
+          <button class="pager-btn" id="next-btn" aria-label="Next project">&rarr;</button>
+        </div>
+      </div>
+
+      <div class="project-detail-hero">
+        <p class="eyebrow" id="project-sector"></p>
+        <h1 id="project-title"></h1>
+        <p class="text-muted" id="project-client" style="font-family: var(--font-mono); font-size: var(--fs-small); text-transform: uppercase; letter-spacing: 0.08em;"></p>
+
+        <div class="project-meta-row">
+          <div class="contact-item">
+            <h3>Year</h3>
+            <p id="project-year"></p>
+          </div>
+        </div>
+
+        <p class="project-description" id="project-description"></p>
+      </div>
+
+      <div class="project-gallery" id="project-gallery"></div>
+    </div>
+
+    <!-- ============ LIGHTBOX ============ -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">&larr;</button>
+      <img src="" alt="" id="lightbox-img" />
+      <video id="lightbox-video" controls style="display: none"></video>
+      <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">&rarr;</button>
+    </div>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/render.js"></script>
+    <script src="assets/js/router.js"></script>
+    <script src="assets/js/reveal.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+      document.getElementById("logo-home").addEventListener("click", () => {
+        window.location.hash = "";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      document.getElementById("logo-home-2").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    </script>
+  </body>
+</html>

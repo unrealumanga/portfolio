@@ -1,0 +1,51 @@
+/**
+ * motion.css — Scroll-reveal utility classes
+ */
+
+/* Reveal on scroll */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(4px);
+  transition: all 0.8s var(--ease-out);
+}
+
+[data-reveal].revealed,
+[data-reveal-group].revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Sheet rail highlight */
+.sheet-tab {
+  position: relative;
+}
+
+.sheet-tab::after {
+  content: '';
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: var(--accent);
+  transition: height 0.3s var(--ease-out);
+}
+
+.sheet-tab.is-active::after {
+  height: 30px;
+}
+
+/* Header state on scroll */
+.header-scrolled {
+  background: rgba(11, 12, 9, 0.95);
+  backdrop-filter: blur(8px);
+  border-color: rgba(190, 255, 139, 0.2);
+}
+
+.header-scrolled .wordmark {
+  font-size: 1.2rem;
+  transition: font-size 0.3s var(--ease-out);
+}
