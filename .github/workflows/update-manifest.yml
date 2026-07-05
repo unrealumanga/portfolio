@@ -1,0 +1,26 @@
+name: Update manifest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "projects/**"
+      - "data/projects.json"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run manifest generator
+        run: node scripts/generate-manifest.mjs
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data/manifest.json
+          git diff --cached --quiet || git commit -m "auto: update manifest [skip ci]"
+          git push
