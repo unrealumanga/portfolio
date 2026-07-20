@@ -1,0 +1,64 @@
+/**
+ * tokens.css — Design token system
+ */
+
+:root {
+  /* ---- Color: surfaces ---- */
+  --bg: #0b0c09;
+  --bg-elevated: #131409;
+  --bg-elevated-2: #1a1c11;
+  --border: #262819;
+  --border-strong: #3a3d26;
+
+  /* ---- Color: text ---- */
+  --text: #f4f5ee;
+  --text-muted: #9a9d8c;
+  --text-faint: #5c5f4f;
+
+  /* ---- Color: accents ---- */
+  --lime: #beff8b;
+  --lime-dim: #a3e670;
+  --steel: #9dbbc5;
+  --steel-dim: #7fa3ae;
+
+  /* ---- Color: semantic aliases ---- */
+  --accent: var(--lime);
+  --accent-secondary: var(--steel);
+  --on-accent: #0b0c09;
+
+  /* ---- Type families ---- */
+  --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  /* ---- Type scale ---- */
+  --fs-hero: clamp(2.8rem, 8vw, 8rem);
+  --fs-h1: clamp(2.2rem, 5vw, 4.5rem);
+  --fs-h2: clamp(1.6rem, 3.4vw, 2.6rem);
+  --fs-h3: clamp(1.15rem, 2vw, 1.5rem);
+  --fs-body: 1rem;
+  --fs-small: 0.8125rem;
+  --fs-micro: 0.6875rem;
+
+  /* ---- Spacing ---- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2.5rem;
+  --sp-6: 4rem;
+  --sp-7: 6rem;
+
+  /* ---- Layout ---- */
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --content-max: 1400px;
+  --sheet-rail-width: 44px;
+  --radius: 3px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.2s;
+  --dur-med: 0.45s;
+  --dur-slow: 0.9s;
+}
