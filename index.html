@@ -47,11 +47,17 @@ nav.links a:hover { color:var(--accent); border-bottom-color:var(--accent); }
 .section-head .kicker { display:flex; align-items:baseline; gap:22px; }
 .section-head .sec-no { font-family:var(--serif); font-style:italic; font-size:16px; color:var(--accent); }
 .work-grid { display:grid; grid-template-columns:repeat(12,1fr); column-gap:32px; row-gap:80px; }
-.card { grid-column:span 6; }
+.card { grid-column:span 6; cursor:pointer; background:none; border:none; text-align:left; padding:0; font:inherit; color:inherit; display:block; width:100%; }
 .card.wide { grid-column:span 7; } .card.narrow { grid-column:span 5; padding-top:90px; }
-.card .frame { overflow:hidden; background:var(--bg-alt); aspect-ratio:4/3; }
+.card .frame { overflow:hidden; background:var(--bg-alt); aspect-ratio:4/3; position:relative; }
 .card .frame img { width:100%; height:100%; object-fit:cover; transition:transform .8s; }
 .card:hover .frame img { transform:scale(1.03); }
+.card .frame::after {
+  content:"View gallery"; position:absolute; right:14px; bottom:14px; padding:7px 14px;
+  background:rgba(28,27,24,.72); color:#F7F4EF; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+  opacity:0; transform:translateY(6px); transition:.25s;
+}
+.card:hover .frame::after { opacity:1; transform:translateY(0); }
 .card-meta { display:flex; gap:20px; padding-top:16px; align-items:baseline; }
 .card-meta .no { font-family:var(--serif); font-style:italic; font-size:13px; color:var(--accent); min-width:28px; }
 .card-meta h3 { font-family:var(--serif); font-weight:400; font-size:21px; line-height:1.25; }
@@ -90,6 +96,33 @@ nav.links a:hover { color:var(--accent); border-bottom-color:var(--accent); }
 .contact-grid .val { font-family:var(--serif); font-size:19px; line-height:1.5; }
 footer { border-top:1px solid var(--hairline); }
 .foot { display:flex; justify-content:space-between; padding:22px 0; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+
+/* — lightbox / carousel — */
+.lb-overlay {
+  position:fixed; inset:0; z-index:100; background:rgba(20,18,15,.94);
+  display:none; align-items:center; justify-content:center; padding:64px;
+}
+.lb-overlay.active { display:flex; }
+.lb-stage { position:relative; max-width:1200px; width:100%; }
+.lb-frame { position:relative; width:100%; aspect-ratio:16/10; background:#000; overflow:hidden; }
+.lb-frame img { width:100%; height:100%; object-fit:contain; background:#0d0c0a; }
+.lb-cap { display:flex; justify-content:space-between; padding-top:16px; color:#EDE8DF; }
+.lb-cap .name { font-family:var(--serif); font-size:18px; }
+.lb-cap .count { font-family:var(--sans); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#A99C8C; }
+.lb-close, .lb-prev, .lb-next {
+  position:absolute; background:rgba(247,244,239,.08); border:1px solid rgba(247,244,239,.22); color:#F7F4EF;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; font-family:var(--sans);
+}
+.lb-close:hover, .lb-prev:hover, .lb-next:hover { background:rgba(247,244,239,.18); }
+.lb-close { top:-56px; right:0; width:40px; height:40px; border-radius:50%; font-size:20px; }
+.lb-prev, .lb-next { top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; font-size:22px; }
+.lb-prev { left:-26px; } .lb-next { right:-26px; }
+@media (max-width:900px) {
+  .lb-overlay { padding:20px; }
+  .lb-prev { left:6px; } .lb-next { right:6px; }
+  .lb-close { top:-44px; right:6px; }
+}
+
 @media (max-width:900px) {
   :root { --pad:24px; }
   .hero-meta, .ai-cols, .idx-cols, .contact-grid { grid-template-columns:1fr; }
@@ -109,7 +142,7 @@ footer { border-top:1px solid var(--hairline); }
   <h1 class="display">Creating spaces that <em>respond</em> to people.</h1>
   <div class="hero-meta">
     <div><div class="num">20<sup>+</sup></div><span class="small-label">Years of practice</span></div>
-    <div><div class="num">37+</div><span class="small-label">Selected projects</span></div>
+    <div><div class="num">38+</div><span class="small-label">Selected projects</span></div>
     <div><div class="num">4</div><span class="small-label">Sectors</span></div>
     <div class="lede">Two decades translating brand strategy into dynamic, three-dimensional worlds — exhibitions, national pavilions, experience centres and workplaces across the GCC.</div>
   </div>
@@ -120,63 +153,79 @@ footer { border-top:1px solid var(--hairline); }
 </div></section>
 
 <section class="section" id="work"><div class="wrap">
-  <div class="section-head"><div class="kicker"><span class="sec-no">01</span><h2 class="section-title">Selected Work</h2></div><span class="small-label">2021 — 2026</span></div>
-  <div class="work-grid"><div class="card wide">
+  <div class="section-head"><div class="kicker"><span class="sec-no">01</span><h2 class="section-title">Selected Work</h2></div><span class="small-label">Click any project to view its gallery — 2018 — 2026</span></div>
+  <div class="work-grid"><button class="card wide" onclick="openLightbox('trojena')">
   <div class="frame"><img src="img/cs-main.jpg" alt="Trojena Mobile Pavilion" loading="lazy"></div>
   <div class="card-meta"><span class="no">01</span>
     <div><h3>Trojena Mobile Pavilion</h3><div class="sub">NEOM · Pavilion · 2024</div></div>
-  </div></div><div class="card narrow">
+  </div></button><button class="card narrow" onclick="openLightbox('stories')">
   <div class="frame"><img src="img/stories-kv.jpg" alt="Stories of the Nation" loading="lazy"></div>
   <div class="card-meta"><span class="no">02</span>
     <div><h3>Stories of the Nation</h3><div class="sub">Expo Dubai Group · Pavilion · 2023</div></div>
-  </div></div><div class="card narrow">
+  </div></button><button class="card narrow" onclick="openLightbox('cop28')">
   <div class="frame"><img src="img/cop28f-kv.jpg" alt="COP28 Sustainability Exhibition" loading="lazy"></div>
   <div class="card-meta"><span class="no">03</span>
     <div><h3>COP28 Sustainability Exhibition</h3><div class="sub">Expo Dubai Group · Exhibition · 2023</div></div>
-  </div></div><div class="card wide">
-  <div class="frame"><img src="img/afghan-kv.jpg" alt="Afghanistan Pavilion" loading="lazy"></div>
+  </div></button><button class="card wide" onclick="openLightbox('cyberquest')">
+  <div class="frame"><img src="img/cq-kv.jpg" alt="CyberQuest" loading="lazy"></div>
   <div class="card-meta"><span class="no">04</span>
-    <div><h3>Afghanistan Pavilion</h3><div class="sub">Expo 2020 Dubai · Pavilion · 2021</div></div>
-  </div></div><div class="card wide">
-  <div class="frame"><img src="img/yashq-kv.jpg" alt="Yas Holding Abu Dhabi HQ" loading="lazy"></div>
+    <div><h3>CyberQuest</h3><div class="sub">Darkmatter x SIA · Exhibition · 2018</div></div>
+  </div></button><button class="card narrow" onclick="openLightbox('afghanistan')">
+  <div class="frame"><img src="img/afghan-kv.jpg" alt="Afghanistan Pavilion" loading="lazy"></div>
   <div class="card-meta"><span class="no">05</span>
-    <div><h3>Yas Holding Abu Dhabi HQ</h3><div class="sub">Yas Holding · Corporate · 2024</div></div>
-  </div></div><div class="card narrow">
-  <div class="frame"><img src="img/cover-aldar-rak.jpg" alt="Al Dar x Nikki Beach — RAK Sales Center" loading="lazy"></div>
+    <div><h3>Afghanistan Pavilion</h3><div class="sub">Expo 2020 Dubai · Pavilion · 2021</div></div>
+  </div></button><button class="card wide" onclick="openLightbox('yashq')">
+  <div class="frame"><img src="img/yashq-kv.jpg" alt="Yas Holding Abu Dhabi HQ" loading="lazy"></div>
   <div class="card-meta"><span class="no">06</span>
-    <div><h3>Al Dar x Nikki Beach — RAK Sales Center</h3><div class="sub">Aldar · Brand Space · 2024</div></div>
-  </div></div><div class="card wide">
-  <div class="frame"><img src="img/cover-qiddiya-cityscape.jpg" alt="Qiddiya Cityscape 2025" loading="lazy"></div>
+    <div><h3>Yas Holding Abu Dhabi HQ</h3><div class="sub">Yas Holding · Corporate · 2024</div></div>
+  </div></button><button class="card narrow" onclick="openLightbox('aldar')">
+  <div class="frame"><img src="img/cover-aldar-rak.jpg" alt="Al Dar x Nikki Beach — RAK Sales Center" loading="lazy"></div>
   <div class="card-meta"><span class="no">07</span>
-    <div><h3>Qiddiya Cityscape 2025</h3><div class="sub">Qiddiya · Exhibition · 2025</div></div>
-  </div></div><div class="card narrow">
-  <div class="frame"><img src="img/cover-omniyat-lana.jpg" alt="Lana Experience Centre" loading="lazy"></div>
+    <div><h3>Al Dar x Nikki Beach — RAK Sales Center</h3><div class="sub">Aldar · Brand Space · 2024</div></div>
+  </div></button><button class="card wide" onclick="openLightbox('qiddiya')">
+  <div class="frame"><img src="img/cover-qiddiya-cityscape.jpg" alt="Qiddiya Cityscape 2025" loading="lazy"></div>
   <div class="card-meta"><span class="no">08</span>
-    <div><h3>Lana Experience Centre</h3><div class="sub">Omniyat · Brand Space · 2024</div></div>
-  </div></div><div class="card wide">
+    <div><h3>Qiddiya Cityscape 2025</h3><div class="sub">Qiddiya · Exhibition · 2025</div></div>
+  </div></button><button class="card narrow" onclick="openLightbox('saudi-cmf')">
   <div class="frame"><img src="img/cover-tadawul-cmf.jpg" alt="Saudi Capital Market Forum 2026" loading="lazy"></div>
   <div class="card-meta"><span class="no">09</span>
     <div><h3>Saudi Capital Market Forum 2026</h3><div class="sub">Saudi Tadawul Group · Conference · 2026</div></div>
-  </div></div><div class="card narrow">
-  <div class="frame"><img src="img/cover-jetex-aero.jpg" alt="JETEX AERO 2026" loading="lazy"></div>
+  </div></button><button class="card wide" onclick="openLightbox('byd')">
+  <div class="frame"><img src="img/cover-byd.jpg" alt="DFS Kiosk" loading="lazy"></div>
   <div class="card-meta"><span class="no">10</span>
-    <div><h3>JETEX AERO 2026</h3><div class="sub">JETEX · Exhibition · 2026</div></div>
-  </div></div><div class="card wide">
-  <div class="frame"><img src="img/cover-humain-leap.jpg" alt="Humain @ LEAP 2026" loading="lazy"></div>
+    <div><h3>DFS Kiosk</h3><div class="sub">BYD · Exhibition · 2024</div></div>
+  </div></button><button class="card narrow" onclick="openLightbox('lana')">
+  <div class="frame"><img src="img/cover-omniyat-lana.jpg" alt="Lana Experience Centre" loading="lazy"></div>
   <div class="card-meta"><span class="no">11</span>
-    <div><h3>Humain @ LEAP 2026</h3><div class="sub">Humain · Exhibition · 2026</div></div>
-  </div></div><div class="card narrow">
-  <div class="frame"><img src="img/cover-wicked-marina.jpg" alt="Marina Gate Experience Centre" loading="lazy"></div>
+    <div><h3>Lana Experience Centre</h3><div class="sub">Omniyat · Brand Space · 2024</div></div>
+  </div></button><button class="card wide" onclick="openLightbox('ice')">
+  <div class="frame"><img src="img/cover-ice.jpg" alt="ICE Exhibition Programme" loading="lazy"></div>
   <div class="card-meta"><span class="no">12</span>
+    <div><h3>ICE Exhibition Programme</h3><div class="sub">PIF · Exhibition · 2024</div></div>
+  </div></button><button class="card narrow" onclick="openLightbox('tadawul-tower')">
+  <div class="frame"><img src="img/cover-tadawul-tower.jpg" alt="Tadawul Tower Marketplace" loading="lazy"></div>
+  <div class="card-meta"><span class="no">13</span>
+    <div><h3>Tadawul Tower Marketplace</h3><div class="sub">Saudi Tadawul Group · Exhibition · 2024</div></div>
+  </div></button><button class="card wide" onclick="openLightbox('jetex')">
+  <div class="frame"><img src="img/cover-jetex-aero.jpg" alt="JETEX AERO 2026" loading="lazy"></div>
+  <div class="card-meta"><span class="no">14</span>
+    <div><h3>JETEX AERO 2026</h3><div class="sub">JETEX · Exhibition · 2026</div></div>
+  </div></button><button class="card narrow" onclick="openLightbox('humain')">
+  <div class="frame"><img src="img/cover-humain-leap.jpg" alt="Humain @ LEAP 2026" loading="lazy"></div>
+  <div class="card-meta"><span class="no">15</span>
+    <div><h3>Humain @ LEAP 2026</h3><div class="sub">Humain · Exhibition · 2026</div></div>
+  </div></button><button class="card wide" onclick="openLightbox('marina')">
+  <div class="frame"><img src="img/cover-wicked-marina.jpg" alt="Marina Gate Experience Centre" loading="lazy"></div>
+  <div class="card-meta"><span class="no">16</span>
     <div><h3>Marina Gate Experience Centre</h3><div class="sub">DAMAC · Brand Space · 2024</div></div>
-  </div></div></div>
+  </div></button></div>
 </div></section>
 
 <section class="section" id="index"><div class="wrap">
-  <div class="section-head"><div class="kicker"><span class="sec-no">02</span><h2 class="section-title">Project Index</h2></div><span class="small-label">Complete record — 37 projects</span></div>
+  <div class="section-head"><div class="kicker"><span class="sec-no">02</span><h2 class="section-title">Project Index</h2></div><span class="small-label">Complete record — 38 projects</span></div>
   <div class="idx-cols" style="margin-top:40px">
-    <div class="index-table"><div class="index-row index-head-row"><div>No.</div><div>Project</div><div>Sector</div><div style="text-align:right">Year</div></div><div class="index-row"><div class="idx-no">01</div><div class="idx-name">Al Dar x Nikki Beach — RAK Sales Center<span class="cl">Aldar</span></div><div class="idx-cat">Brand</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">02</div><div class="idx-name">Group Headquarters<span class="cl">Beeah Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">03</div><div class="idx-name">DFS Kiosk<span class="cl">BYD</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">04</div><div class="idx-name">EIF Innovation Hub<span class="cl">CBUAE</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">05</div><div class="idx-name">IREIS Cityscape RAK 2025<span class="cl">Deyaar</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">06</div><div class="idx-name">Dubai Careers — RUYA 2026<span class="cl">DHA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">07</div><div class="idx-name">EZDubai<span class="cl">Dubai South</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">08</div><div class="idx-name">Afghanistan Pavilion<span class="cl">Expo 2020 Dubai</span></div><div class="idx-cat">Pavilion</div><div class="idx-year">2021</div></div><div class="index-row"><div class="idx-no">09</div><div class="idx-name">RISE 2026<span class="cl">Expo City Dubai</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">10</div><div class="idx-name">COP28 Sustainability Exhibition<span class="cl">Expo Dubai Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2023</div></div><div class="index-row"><div class="idx-no">11</div><div class="idx-name">OS03 Office Extension<span class="cl">Expo Dubai Group</span></div><div class="idx-cat">Corporate</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">12</div><div class="idx-name">Stores of the Nation — Expo Site<span class="cl">Expo Dubai Group</span></div><div class="idx-cat">Pavilion</div><div class="idx-year">2023</div></div><div class="index-row"><div class="idx-no">13</div><div class="idx-name">Restatex 2026<span class="cl">Grova Tilal</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">14</div><div class="idx-name">Humain @ LEAP 2026<span class="cl">Humain</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">15</div><div class="idx-name">Experience Center Riyadh<span class="cl">Kolaghassi Development Company</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">16</div><div class="idx-name">MEBAA 2024<span class="cl">MBRAH</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">17</div><div class="idx-name">Trojena Mobile Pavilion<span class="cl">Neom</span></div><div class="idx-cat">Pavilion</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">18</div><div class="idx-name">Lana Experience Centre<span class="cl">Omniyat</span></div><div class="idx-cat">Brand</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">19</div><div class="idx-name">Gitex 2025<span class="cl">ParkIn</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div></div>
-    <div class="index-table" style="border-top:1px solid var(--hairline)"><div class="index-row index-head-row"><div>No.</div><div>Project</div><div>Sector</div><div style="text-align:right">Year</div></div><div class="index-row"><div class="idx-no">20</div><div class="idx-name">ICE Exhibtion Programme<span class="cl">PIF</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">21</div><div class="idx-name">ATM 2025 Stand<span class="cl">Qiddiya</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">22</div><div class="idx-name">Cityscape 2025<span class="cl">Qiddiya</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">23</div><div class="idx-name">WTM 2025<span class="cl">Qiddiya</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">24</div><div class="idx-name">World Defense Show 2026<span class="cl">Qudra</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">25</div><div class="idx-name">GITEX Europe 2025<span class="cl">RTA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">26</div><div class="idx-name">GITEX GLOBAL 2025<span class="cl">RTA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">27</div><div class="idx-name">Global Rail 2024<span class="cl">RTA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">28</div><div class="idx-name">Saudi Capital Market Forum 2026<span class="cl">Saudi Tadawul Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">29</div><div class="idx-name">Tadawul Tower 34th Floor Marketplace<span class="cl">Saudi Tadawul Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">30</div><div class="idx-name">RCRC Exhibition Programme<span class="cl">Sela</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">31</div><div class="idx-name">Saudi Vision 2030 Mobile Pavilion<span class="cl">Sela</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">32</div><div class="idx-name">World Cup Bid Model<span class="cl">Sela</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">33</div><div class="idx-name">Damac Experience<span class="cl">Wicked</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">34</div><div class="idx-name">Marina Gate Experience Centre<span class="cl">Wicked</span></div><div class="idx-cat">Brand</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">35</div><div class="idx-name">Innovation Hub 2027<span class="cl">World Defense Show</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2027</div></div><div class="index-row"><div class="idx-no">36</div><div class="idx-name">Innovation Hub — WDS 2027<span class="cl">World Defense Show</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2027</div></div><div class="index-row"><div class="idx-no">37</div><div class="idx-name">Abu Dhabi Headquarters<span class="cl">Yas Holding</span></div><div class="idx-cat">Corporate</div><div class="idx-year">2024</div></div></div>
+    <div class="index-table"><div class="index-row index-head-row"><div>No.</div><div>Project</div><div>Sector</div><div style="text-align:right">Year</div></div><div class="index-row"><div class="idx-no">01</div><div class="idx-name">Al Dar x Nikki Beach — RAK Sales Center<span class="cl">Aldar</span></div><div class="idx-cat">Brand</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">02</div><div class="idx-name">Group Headquarters<span class="cl">Beeah Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">03</div><div class="idx-name">DFS Kiosk<span class="cl">BYD</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">04</div><div class="idx-name">EIF Innovation Hub<span class="cl">CBUAE</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">05</div><div class="idx-name">CyberQuest<span class="cl">Darkmatter x SIA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2018</div></div><div class="index-row"><div class="idx-no">06</div><div class="idx-name">IREIS Cityscape RAK 2025<span class="cl">Deyaar</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">07</div><div class="idx-name">Dubai Careers — RUYA 2026<span class="cl">DHA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">08</div><div class="idx-name">EZDubai<span class="cl">Dubai South</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">09</div><div class="idx-name">Afghanistan Pavilion<span class="cl">Expo 2020 Dubai</span></div><div class="idx-cat">Pavilion</div><div class="idx-year">2021</div></div><div class="index-row"><div class="idx-no">10</div><div class="idx-name">RISE 2026<span class="cl">Expo City Dubai</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">11</div><div class="idx-name">COP28 Sustainability Exhibition<span class="cl">Expo Dubai Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2023</div></div><div class="index-row"><div class="idx-no">12</div><div class="idx-name">OS03 Office Extension<span class="cl">Expo Dubai Group</span></div><div class="idx-cat">Corporate</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">13</div><div class="idx-name">Stores of the Nation — Expo Site<span class="cl">Expo Dubai Group</span></div><div class="idx-cat">Pavilion</div><div class="idx-year">2023</div></div><div class="index-row"><div class="idx-no">14</div><div class="idx-name">Restatex 2026<span class="cl">Grova Tilal</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">15</div><div class="idx-name">Humain @ LEAP 2026<span class="cl">Humain</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">16</div><div class="idx-name">Experience Center Riyadh<span class="cl">Kolaghassi Development Company</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">17</div><div class="idx-name">MEBAA 2024<span class="cl">MBRAH</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">18</div><div class="idx-name">Trojena Mobile Pavilion<span class="cl">Neom</span></div><div class="idx-cat">Pavilion</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">19</div><div class="idx-name">Lana Experience Centre<span class="cl">Omniyat</span></div><div class="idx-cat">Brand</div><div class="idx-year">2024</div></div></div>
+    <div class="index-table" style="border-top:1px solid var(--hairline)"><div class="index-row index-head-row"><div>No.</div><div>Project</div><div>Sector</div><div style="text-align:right">Year</div></div><div class="index-row"><div class="idx-no">20</div><div class="idx-name">Gitex 2025<span class="cl">ParkIn</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">21</div><div class="idx-name">ICE Exhibtion Programme<span class="cl">PIF</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">22</div><div class="idx-name">ATM 2025 Stand<span class="cl">Qiddiya</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">23</div><div class="idx-name">Cityscape 2025<span class="cl">Qiddiya</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">24</div><div class="idx-name">WTM 2025<span class="cl">Qiddiya</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">25</div><div class="idx-name">World Defense Show 2026<span class="cl">Qudra</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">26</div><div class="idx-name">GITEX Europe 2025<span class="cl">RTA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">27</div><div class="idx-name">GITEX GLOBAL 2025<span class="cl">RTA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2025</div></div><div class="index-row"><div class="idx-no">28</div><div class="idx-name">Global Rail 2024<span class="cl">RTA</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">29</div><div class="idx-name">Saudi Capital Market Forum 2026<span class="cl">Saudi Tadawul Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2026</div></div><div class="index-row"><div class="idx-no">30</div><div class="idx-name">Tadawul Tower 34th Floor Marketplace<span class="cl">Saudi Tadawul Group</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">31</div><div class="idx-name">RCRC Exhibition Programme<span class="cl">Sela</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">32</div><div class="idx-name">Saudi Vision 2030 Mobile Pavilion<span class="cl">Sela</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">33</div><div class="idx-name">World Cup Bid Model<span class="cl">Sela</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">34</div><div class="idx-name">Damac Experience<span class="cl">Wicked</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">35</div><div class="idx-name">Marina Gate Experience Centre<span class="cl">Wicked</span></div><div class="idx-cat">Brand</div><div class="idx-year">2024</div></div><div class="index-row"><div class="idx-no">36</div><div class="idx-name">Innovation Hub 2027<span class="cl">World Defense Show</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2027</div></div><div class="index-row"><div class="idx-no">37</div><div class="idx-name">Innovation Hub — WDS 2027<span class="cl">World Defense Show</span></div><div class="idx-cat">Exhibition</div><div class="idx-year">2027</div></div><div class="index-row"><div class="idx-no">38</div><div class="idx-name">Abu Dhabi Headquarters<span class="cl">Yas Holding</span></div><div class="idx-cat">Corporate</div><div class="idx-year">2024</div></div></div>
   </div>
 </div></section>
 
@@ -198,7 +247,7 @@ footer { border-top:1px solid var(--hairline); }
 
 <section class="section" id="sectors"><div class="wrap">
   <div class="section-head"><div class="kicker"><span class="sec-no">04</span><h2 class="section-title">Sectors</h2></div><span class="small-label">Fields of practice</span></div>
-  <div class="sector-list"><div class="sector-row"><div class="s-name">Exhibitions</div><div class="s-count">29 projects</div></div><div class="sector-row"><div class="s-name">Brand Spaces</div><div class="s-count">03 projects</div></div><div class="sector-row"><div class="s-name">Pavilions</div><div class="s-count">03 projects</div></div><div class="sector-row"><div class="s-name">Corporate</div><div class="s-count">02 projects</div></div></div>
+  <div class="sector-list"><div class="sector-row"><div class="s-name">Exhibitions</div><div class="s-count">30 projects</div></div><div class="sector-row"><div class="s-name">Brand Spaces</div><div class="s-count">03 projects</div></div><div class="sector-row"><div class="s-name">Pavilions</div><div class="s-count">03 projects</div></div><div class="sector-row"><div class="s-name">Corporate</div><div class="s-count">02 projects</div></div></div>
 </div></section>
 
 <section class="contact" id="contact"><div class="wrap">
@@ -210,5 +259,53 @@ footer { border-top:1px solid var(--hairline); }
     <div><span class="small-label">Based in</span><div class="val">Dubai,<br>United Arab Emirates</div></div>
   </div>
 </div></section>
+
+<div class="lb-overlay" id="lbOverlay" onclick="if(event.target===this) closeLightbox()">
+  <div class="lb-stage">
+    <button class="lb-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <button class="lb-prev" onclick="navLightbox(-1)" aria-label="Previous">&larr;</button>
+    <button class="lb-next" onclick="navLightbox(1)" aria-label="Next">&rarr;</button>
+    <div class="lb-frame"><img id="lbImg" src="" alt=""></div>
+    <div class="lb-cap"><span class="name" id="lbName"></span><span class="count" id="lbCount"></span></div>
+  </div>
+</div>
+
+<script>
+const GALLERIES = {"trojena": {"name": "Trojena Mobile Pavilion", "images": [{"src": "img/cs-main.jpg", "cap": "Garden elevation"}, {"src": "img/troj2-01.jpg", "cap": "View from entrance"}, {"src": "img/troj2-02.jpg", "cap": "Fog threshold \u2014 screen detail"}, {"src": "img/troj2-03.jpg", "cap": "Interior \u2014 model room detail"}, {"src": "img/troj2-05.jpg", "cap": "Terrain model chamber"}]}, "stories": {"name": "Stories of the Nation", "images": [{"src": "img/stories-kv.jpg", "cap": "Front fa\u00e7ade \u2014 night"}, {"src": "img/stories-00.jpg", "cap": "Main entrance \u2014 side view"}, {"src": "img/stories-01.jpg", "cap": "Presentation room"}, {"src": "img/stories-03.jpg", "cap": "Time Travel installation"}, {"src": "img/stories-04.jpg", "cap": "The Humanity of Object"}]}, "cop28": {"name": "COP28 Sustainability Exhibition", "images": [{"src": "img/cop28f-kv.jpg", "cap": "Entrance"}, {"src": "img/cop28f-00.jpg", "cap": "Welcome area"}, {"src": "img/cop28f-01.jpg", "cap": "The 4th Room"}, {"src": "img/cop28f-02.jpg", "cap": "The 4th Room \u2014 detail"}, {"src": "img/cop28f-03.jpg", "cap": "Zone 2 \u2014 biodiversity"}, {"src": "img/cop28f-04.jpg", "cap": "Live the City \u2014 graphic wall"}, {"src": "img/cop28f-05.jpg", "cap": "Exhibition floor"}, {"src": "img/cop28f-06.jpg", "cap": "CFTP \u2014 introduction graphics"}, {"src": "img/cop28f-07.jpg", "cap": "Exhibition floor \u2014 detail"}]}, "cyberquest": {"name": "CyberQuest", "images": [{"src": "img/cq-kv.jpg", "cap": "Laser-tunnel entrance"}, {"src": "img/cq-00.jpg", "cap": "Digital identity installation"}, {"src": "img/cq-01.jpg", "cap": "Holographic arena \u2014 aerial view"}, {"src": "img/cq-02.jpg", "cap": "Interactive screen wall"}, {"src": "img/cq-03.jpg", "cap": "Main stage \u2014 full house"}, {"src": "img/cq-04.jpg", "cap": "Stage entrance corridor"}, {"src": "img/cq-05.jpg", "cap": "VR arena \u2014 interactive challenges"}]}, "afghanistan": {"name": "Afghanistan Pavilion", "images": [{"src": "img/afghan-kv.jpg", "cap": "Ground floor \u2014 reception"}, {"src": "img/afghan-00.jpg", "cap": "Made in Afghanistan \u2014 exhibition hall"}, {"src": "img/afghan-02.jpg", "cap": "First floor \u2014 reception & dried fruit area"}, {"src": "img/afghan-03.jpg", "cap": "First floor \u2014 terrace"}, {"src": "img/afghan-04.jpg", "cap": "Second floor \u2014 terrace majlis"}]}, "yashq": {"name": "Yas Holding Abu Dhabi HQ", "images": [{"src": "img/yashq-kv.jpg", "cap": "Executive lobby"}, {"src": "img/yashq-00.jpg", "cap": "Ground floor \u2014 main entrance exterior"}, {"src": "img/yashq-01.jpg", "cap": "Ground floor \u2014 reception entrance"}, {"src": "img/yashq-02.jpg", "cap": "Atrium \u2014 ground floor"}, {"src": "img/yashq-03.jpg", "cap": "Atrium terrace \u2014 seating"}, {"src": "img/yashq-04.jpg", "cap": "Multipurpose space \u2014 south door"}, {"src": "img/yashq-05.jpg", "cap": "Multipurpose space \u2014 interior"}, {"src": "img/yashq-06.jpg", "cap": "2nd floor \u2014 sky garden"}, {"src": "img/yashq-07.jpg", "cap": "2nd floor \u2014 meeting block"}, {"src": "img/yashq-08.jpg", "cap": "Atrium \u2014 2nd floor, south corner"}, {"src": "img/yashq-09.jpg", "cap": "2nd floor \u2014 lounge"}, {"src": "img/yashq-10.jpg", "cap": "2nd floor \u2014 office, south-west"}, {"src": "img/yashq-11.jpg", "cap": "2nd floor \u2014 reception"}, {"src": "img/yashq-12.jpg", "cap": "2nd floor \u2014 east-south meeting block"}, {"src": "img/yashq-13.jpg", "cap": "2nd floor \u2014 tiered seating"}, {"src": "img/yashq-14.jpg", "cap": "Majlis area"}, {"src": "img/yashq-15.jpg", "cap": "Boardroom"}, {"src": "img/yashq-16.jpg", "cap": "GCEO majlis"}, {"src": "img/yashq-17.jpg", "cap": "Tech room \u2014 presentation seating"}]}, "aldar": {"name": "Al Dar x Nikki Beach \u2014 RAK Sales Center", "images": [{"src": "img/cover-aldar-rak.jpg", "cap": "Nikki Beach \u2014 signage facade"}, {"src": "img/aldarx-00.jpg", "cap": "VIP entrance"}, {"src": "img/aldarx-01.jpg", "cap": "Exterior entrance \u2014 night"}, {"src": "img/aldarx-02.jpg", "cap": "Exterior entrance view"}, {"src": "img/aldarx-03.jpg", "cap": "Beach terrace"}, {"src": "img/aldarx-04.jpg", "cap": "Model room"}, {"src": "img/aldarx-05.jpg", "cap": "Cafe"}]}, "qiddiya": {"name": "Qiddiya Cityscape 2025", "images": [{"src": "img/cover-qiddiya-cityscape.jpg", "cap": "Cityscape 2025"}, {"src": "img/qc-00.jpg", "cap": "Front approach"}, {"src": "img/qc-01.jpg", "cap": "Masterplan \u2014 aerial view"}, {"src": "img/fw-12.jpg", "cap": "WTM 2025 stand"}, {"src": "img/fw-11.jpg", "cap": "ATM 2025 stand"}]}, "saudi-cmf": {"name": "Saudi Capital Market Forum 2026", "images": [{"src": "img/cover-tadawul-cmf.jpg", "cap": "Forum arrival"}, {"src": "img/scmf-00.jpg", "cap": "Forum floor"}, {"src": "img/scmf-01.jpg", "cap": "Panel discussion"}, {"src": "img/scmf-02.jpg", "cap": "Networking lounge"}, {"src": "img/scmf-03.jpg", "cap": "Welcome arch"}]}, "byd": {"name": "DFS Kiosk", "images": [{"src": "img/cover-byd.jpg", "cap": "DFS Kiosk"}, {"src": "img/strip-byd-0.jpg", "cap": "DFS Kiosk"}, {"src": "img/strip-byd-1.jpg", "cap": "DFS Kiosk"}, {"src": "img/strip-byd-2.jpg", "cap": "DFS Kiosk"}]}, "lana": {"name": "Lana Experience Centre", "images": [{"src": "img/cover-omniyat-lana.jpg", "cap": "Lana Experience Centre"}, {"src": "img/strip-lana-0.jpg", "cap": "Lana Experience Centre"}, {"src": "img/strip-lana-1.jpg", "cap": "Lana Experience Centre"}, {"src": "img/strip-lana-2.jpg", "cap": "Lana Experience Centre"}]}, "ice": {"name": "ICE Exhibition Programme", "images": [{"src": "img/cover-ice.jpg", "cap": "ICE Exhibition Programme"}, {"src": "img/strip-ice-0.jpg", "cap": "ICE Exhibition Programme"}, {"src": "img/strip-ice-1.jpg", "cap": "ICE Exhibition Programme"}, {"src": "img/strip-ice-2.jpg", "cap": "ICE Exhibition Programme"}]}, "tadawul-tower": {"name": "Tadawul Tower Marketplace", "images": [{"src": "img/cover-tadawul-tower.jpg", "cap": "Tadawul Tower Marketplace"}, {"src": "img/strip-tadawul-tower-0.jpg", "cap": "Tadawul Tower Marketplace"}, {"src": "img/strip-tadawul-tower-1.jpg", "cap": "Tadawul Tower Marketplace"}, {"src": "img/strip-tadawul-tower-2.jpg", "cap": "Tadawul Tower Marketplace"}]}, "humain": {"name": "Humain @ LEAP 2026", "images": [{"src": "img/cover-humain-leap.jpg", "cap": "Humain @ LEAP 2026"}, {"src": "img/strip-humain-0.jpg", "cap": "Humain @ LEAP 2026"}, {"src": "img/strip-humain-1.jpg", "cap": "Humain @ LEAP 2026"}, {"src": "img/strip-humain-2.jpg", "cap": "Humain @ LEAP 2026"}]}, "marina": {"name": "Marina Gate Experience Centre", "images": [{"src": "img/cover-wicked-marina.jpg", "cap": "Marina Gate Experience Centre"}, {"src": "img/strip-marina-0.jpg", "cap": "Marina Gate Experience Centre"}, {"src": "img/strip-marina-1.jpg", "cap": "Marina Gate Experience Centre"}, {"src": "img/strip-marina-2.jpg", "cap": "Marina Gate Experience Centre"}]}, "jetex": {"name": "JETEX AERO 2026", "images": [{"src": "img/cover-jetex-aero.jpg", "cap": "JETEX AERO 2026"}]}};
+let lbKey = null, lbIndex = 0;
+
+function openLightbox(key) {
+  if (!GALLERIES[key]) return;
+  lbKey = key; lbIndex = 0;
+  renderLightbox();
+  document.getElementById('lbOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lbOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  lbKey = null;
+}
+function navLightbox(dir) {
+  if (!lbKey) return;
+  const imgs = GALLERIES[lbKey].images;
+  lbIndex = (lbIndex + dir + imgs.length) % imgs.length;
+  renderLightbox();
+}
+function renderLightbox() {
+  const g = GALLERIES[lbKey];
+  const im = g.images[lbIndex];
+  document.getElementById('lbImg').src = im.src;
+  document.getElementById('lbImg').alt = im.cap;
+  document.getElementById('lbName').textContent = g.name + ' — ' + im.cap;
+  document.getElementById('lbCount').textContent = (lbIndex+1) + ' / ' + g.images.length;
+}
+document.addEventListener('keydown', (e) => {
+  if (!lbKey) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navLightbox(-1);
+  if (e.key === 'ArrowRight') navLightbox(1);
+});
+</script>
 <footer><div class="wrap foot"><div>&copy; 2026 Hethusha Umanga Seneviratne</div><div>Experiential Designer — Dubai, UAE</div></div></footer>
 </body></html>
